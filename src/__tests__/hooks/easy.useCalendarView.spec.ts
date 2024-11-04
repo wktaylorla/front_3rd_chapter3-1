@@ -26,58 +26,58 @@ describe('초기 상태', () => {
   });
 });
 
-it("view를 'week'으로 변경 시 적절하게 반영된다", async () => {
+it("view를 'week'으로 변경 시 적절하게 반영된다", () => {
   const { result } = renderHook(() => useCalendarView());
 
-  await act(() => {
+  act(() => {
     result.current.setView('week');
   });
 
   expect(result.current.view).toBe('week');
 });
 
-it("주간 뷰에서 다음으로 navigate시 7일 후 '2024-10-08' 날짜로 지정이 된다", async () => {
+it("주간 뷰에서 다음으로 navigate시 7일 후 '2024-10-08' 날짜로 지정이 된다", () => {
   const { result } = renderHook(() => useCalendarView());
 
-  await act(() => {
+  act(() => {
     result.current.setView('week');
   });
 
-  await act(() => {
+  act(() => {
     result.current.navigate('next');
   });
 
   assertDate(result.current.currentDate, new Date('2024-10-08'));
 });
 
-it("주간 뷰에서 이전으로 navigate시 7일 후 '2024-09-24' 날짜로 지정이 된다", async () => {
+it("주간 뷰에서 이전으로 navigate시 7일 후 '2024-09-24' 날짜로 지정이 된다", () => {
   const { result } = renderHook(() => useCalendarView());
 
-  await act(() => {
+  act(() => {
     result.current.setView('week');
   });
 
-  await act(() => {
+  act(() => {
     result.current.navigate('prev');
   });
 
   assertDate(result.current.currentDate, new Date('2024-09-24'));
 });
 
-it("월간 뷰에서 이전으로 navigate시 한 달 전 '2024-09-01' 날짜여야 한다", async () => {
+it("월간 뷰에서 이전으로 navigate시 한 달 전 '2024-09-01' 날짜여야 한다", () => {
   const { result } = renderHook(() => useCalendarView());
 
-  await act(() => {
+  act(() => {
     result.current.navigate('prev');
   });
 
   assertDate(result.current.currentDate, new Date('2024-09-01'));
 });
 
-it("currentDate가 '2024-01-01' 변경되면 1월 휴일 '신정'으로 업데이트되어야 한다", async () => {
+it("currentDate가 '2024-01-01' 변경되면 1월 휴일 '신정'으로 업데이트되어야 한다", () => {
   const { result } = renderHook(() => useCalendarView());
 
-  await act(() => {
+  act(() => {
     result.current.setCurrentDate(new Date('2024-01-01'));
   });
 
