@@ -6,19 +6,15 @@ import {
   EditIcon,
 } from '@chakra-ui/icons';
 import {
-  Alert,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  AlertIcon,
-  AlertTitle,
   Box,
   Button,
   Checkbox,
-  CloseButton,
   Flex,
   FormControl,
   FormLabel,
@@ -40,6 +36,7 @@ import {
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 
+import Notifications from './components/Notifications.tsx';
 import { useCalendarView } from './hooks/useCalendarView.ts';
 import { useEventForm } from './hooks/useEventForm.ts';
 import { useEventOperations } from './hooks/useEventOperations.ts';
@@ -163,6 +160,10 @@ function App() {
       await saveEvent(eventData);
       resetForm();
     }
+  };
+
+  const closeNotification = (index: number) => {
+    setNotifications((prev) => prev.filter((_, i) => i !== index));
   };
 
   const renderWeekView = () => {
@@ -572,21 +573,7 @@ function App() {
         </AlertDialogOverlay>
       </AlertDialog>
 
-      {notifications.length > 0 && (
-        <VStack position="fixed" top={4} right={4} spacing={2} align="flex-end">
-          {notifications.map((notification, index) => (
-            <Alert key={index} status="info" variant="solid" width="auto">
-              <AlertIcon />
-              <Box flex="1">
-                <AlertTitle fontSize="sm">{notification.message}</AlertTitle>
-              </Box>
-              <CloseButton
-                onClick={() => setNotifications((prev) => prev.filter((_, i) => i !== index))}
-              />
-            </Alert>
-          ))}
-        </VStack>
-      )}
+      <Notifications notifications={notifications} closeNotification={closeNotification} />
     </Box>
   );
 }
